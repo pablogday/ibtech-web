@@ -1,6 +1,6 @@
 # IBtech web
 
-La página de links de IBtech en [ibtechteam.com](https://ibtechteam.com), con los mismos links que tenía [el Linktree](https://linktr.ee/ibtechteam). Está hecha con los [estándares de PGD Studio](https://github.com/pablogday/pgd-webflow-core/blob/main/PGD_BUILD_STANDARDS.md) que aplican a una página fuera de Webflow: SEO, accesibilidad, performance y tracking.
+La página de links de IBtech en [ibtechteam.com](https://ibtechteam.com), con los mismos links que tenía [el Linktree](https://linktr.ee/ibtechteam). Está hecha con los estándares de PGD Studio que aplican a una página fuera de Webflow: SEO, accesibilidad, performance y tracking.
 
 La página es `index.html`. Las imágenes y las tipografías están en `assets/`. Se publica en GitHub Pages con cada push a `main`.
 
