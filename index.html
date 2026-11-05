@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IBtech</title>
+  <meta name="description" content="Reviews, novedades y opiniones sobre el mundo tech.">
+  <link rel="canonical" href="https://ibtechteam.com/">
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+  <meta name="theme-color" content="#900c03">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IBtech">
+  <meta property="og:description" content="Reviews, novedades y opiniones sobre el mundo tech.">
+  <meta property="og:url" content="https://ibtechteam.com/">
+  <meta property="og:image" content="https://ibtechteam.com/assets/avatar.jpeg">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=Red+Hat+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #900c03;
+      --bg-light: #c42410;
+      --bg-dark: #5c0702;
+      --heading: #ffbea0;
+      --text: #faded1;
+      --button-text: #ffebe3;
+      --button-bg: rgba(255, 255, 255, 0.13);
+      --button-bg-hover: rgba(255, 255, 255, 0.2);
+      --button-border: rgba(255, 255, 255, 0.2);
+      --shadow: rgba(180, 155, 110, 0.35);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Red Hat Display", system-ui, -apple-system, sans-serif;
+      line-height: 1.4;
+      overflow-x: hidden;
+    }
+
+    /* Fondo difuminado, como el estilo "Blur" de Linktree */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      z-index: -1;
+      background:
+        radial-gradient(40% 35% at 20% 15%, var(--bg-light) 0%, transparent 70%),
+        radial-gradient(45% 40% at 85% 40%, var(--bg-dark) 0%, transparent 70%),
+        radial-gradient(40% 35% at 30% 85%, #b03a12 0%, transparent 70%),
+        var(--bg);
+      filter: blur(60px);
+    }
+
+    main {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 48px 16px 40px;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    h1 {
+      margin: 16px 0 6px;
+      font-family: "Gasoek One", "Red Hat Display", sans-serif;
+      font-weight: 400;
+      font-size: 2.25rem;
+      line-height: 1.1;
+      color: var(--heading);
+    }
+
+    .description {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .social {
+      display: flex;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .social a {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      color: var(--text);
+      transition: transform 0.15s ease;
+    }
+
+    .social a:hover { transform: scale(1.12); }
+
+    .social svg { width: 26px; height: 26px; }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60px;
+      padding: 16px 56px;
+      border: 1px solid var(--button-border);
+      border-radius: var(--radius);
+      background: var(--button-bg);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 6px var(--shadow);
+      color: var(--button-text);
+      font-weight: 600;
+      font-size: 1rem;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .button:hover {
+      background: var(--button-bg-hover);
+      transform: scale(1.02);
+    }
+
+    .button svg {
+      position: absolute;
+      left: 18px;
+      width: 26px;
+      height: 26px;
+    }
+
+    .group {
+      padding: 16px 0 16px;
+      border: 1px solid var(--button-border);
+      border-radius: var(--radius);
+      background: var(--button-bg);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 6px var(--shadow);
+    }
+
+    .group-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 0 16px 12px;
+    }
+
+    .group h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--button-text);
+    }
+
+    .arrows { display: flex; gap: 6px; }
+
+    .arrows button {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 1px solid var(--button-border);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--button-text);
+      cursor: pointer;
+    }
+
+    .arrows button:hover { background: var(--button-bg-hover); }
+
+    .arrows svg { width: 16px; height: 16px; }
+
+    .carousel {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 0 16px 4px;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 0 16px;
+      scrollbar-width: none;
+    }
+
+    .carousel::-webkit-scrollbar { display: none; }
+
+    .video {
+      flex: 0 0 78%;
+      max-width: 260px;
+      scroll-snap-align: start;
+      color: var(--button-text);
+      text-decoration: none;
+    }
+
+    .video img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .video span {
+      display: -webkit-box;
+      margin-top: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.3;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .spacer { height: 8px; }
+
+    .section-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.8125rem;
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--heading);
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .button, .social a { transition: none; }
+      .button:hover, .social a:hover { transform: none; }
+      .carousel { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <img class="avatar" src="assets/avatar.jpeg" alt="IBtech" width="96" height="96">
+      <h1>IBtech</h1>
+      <p class="description">Reviews, novedades y opiniones sobre el mundo tech.</p>
+      <nav class="social" aria-label="Redes">
+        <a href="https://instagram.com/ibtechteam" target="_blank" rel="noopener" aria-label="Instagram" data-track="Ícono Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://tiktok.com/@ibtechteam" target="_blank" rel="noopener" aria-label="TikTok" data-track="Ícono TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.6a7.8 7.8 0 0 0 4.4 1.4V6.7a4.5 4.5 0 0 1-4.4-4.7z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/channel/UCf3vUxDeJmSUJyte9M_EpAQ" target="_blank" rel="noopener" aria-label="YouTube" data-track="Ícono YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4a2.5 2.5 0 0 0-1.8 1.8C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3-5.2 3z"/></svg>
+        </a>
+        <a href="mailto:theibtechteam@gmail.com" aria-label="Mail" data-track="Ícono Mail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+      </nav>
+    </header>
+
+    <div class="links">
+      <a class="button" href="https://www.youtube.com/ibtechteam" target="_blank" rel="noopener" data-track="Suscribite en YouTube">🚀 ¡Suscribite en YouTube! 🚀</a>
+
+      <section class="group" aria-labelledby="videos-title">
+        <div class="group-head">
+          <h2 id="videos-title">Nuestros últimos videos</h2>
+          <div class="arrows">
+            <button type="button" data-scroll="-1" aria-label="Videos anteriores">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button type="button" data-scroll="1" aria-label="Más videos">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="carousel">
+          <a class="video" href="https://youtu.be/8YL3YKyMCeg" target="_blank" rel="noopener" data-track="Video Q600C">
+            <img src="assets/video-q600c.jpeg" alt="" width="480" height="270" loading="lazy">
+            <span>Un soundbar que vale la pena: Review a fondo de la Q600C</span>
+          </a>
+          <a class="video" href="https://youtu.be/xEDyuhNUADc" target="_blank" rel="noopener" data-track="Video TCL C6K">
+            <img src="assets/video-tcl-c6k.jpeg" alt="" width="480" height="270" loading="lazy">
+            <span>Probé la TCL C6K QD-Mini LED TV: el punto medio perfecto entre OLED y QLED</span>
+          </a>
+          <a class="video" href="https://youtu.be/KBz4KJheDtQ" target="_blank" rel="noopener" data-track="Video Galaxy S25 Ultra">
+            <img src="assets/video-s25-ultra.jpeg" alt="" width="480" height="270" loading="lazy">
+            <span>Galaxy S25 Ultra: 2 meses después</span>
+          </a>
+          <a class="video" href="https://youtu.be/SKrSuwZa9EM" target="_blank" rel="noopener" data-track="Video True Wireless">
+            <img src="assets/video-true-wireless.jpeg" alt="" width="480" height="270" loading="lazy">
+            <span>Comparativa True Wireless: Samsung vs Apple vs Motorola y más!</span>
+          </a>
+          <a class="video" href="https://youtu.be/NWDbvNN06Ok" target="_blank" rel="noopener" data-track="Video Zenbook S16">
+            <img src="assets/video-zenbook-s16.jpeg" alt="" width="480" height="270" loading="lazy">
+            <span>Una alternativa a la MacBook M3: Asus Zenbook S16 review</span>
+          </a>
+          <a class="video" href="https://youtu.be/ZkA4rc_1D0k" target="_blank" rel="noopener" data-track="Video Galaxy Fit 3">
+            <img src="assets/video-galaxy-fit-3.jpeg" alt="" width="480" height="270" loading="lazy">
+            <span>Accesible y cumplidora: Galaxy Fit 3</span>
+          </a>
+        </div>
+      </section>
+
+      <div class="spacer" aria-hidden="true"></div>
+
+      <h2 class="section-title">¡Nuestras redes!</h2>
+
+      <a class="button" href="https://www.instagram.com/ibtechteam" target="_blank" rel="noopener" data-track="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a class="button" href="https://www.tiktok.com/@ibtechteam" target="_blank" rel="noopener" data-track="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.6a7.8 7.8 0 0 0 4.4 1.4V6.7a4.5 4.5 0 0 1-4.4-4.7z"/></svg>
+        TikTok
+      </a>
+      <a class="button" href="https://www.youtube.com/ibtechteam" target="_blank" rel="noopener" data-track="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4a2.5 2.5 0 0 0-1.8 1.8C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3-5.2 3z"/></svg>
+        YouTube
+      </a>
+    </div>
+
+    <footer>© IBtech</footer>
+  </main>
+
+  <script>
+    // Analítica. Si un ID está vacío, ese servicio no se carga.
+    var CONFIG = {
+      ga4: "",                                // ID de medición de GA4, por ejemplo "G-XXXXXXXXXX"
+      posthogKey: "",                         // Project API key de PostHog, empieza con "phc_"
+      posthogHost: "https://us.i.posthog.com" // "https://eu.i.posthog.com" si el proyecto está en la región de Europa
+    };
+
+    function loadScript(src, onload) {
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = src;
+      if (onload) s.onload = onload;
+      document.head.appendChild(s);
+    }
+
+    if (CONFIG.ga4) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag("js", new Date());
+      gtag("config", CONFIG.ga4);
+      loadScript("https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(CONFIG.ga4));
+    }
+
+    if (CONFIG.posthogKey) {
+      var assetsHost = CONFIG.posthogHost.replace(".i.posthog.com", "-assets.i.posthog.com");
+      loadScript(assetsHost + "/static/array.js", function () {
+        window.posthog.init(CONFIG.posthogKey, {
+          api_host: CONFIG.posthogHost,
+          person_profiles: "identified_only"
+        });
+      });
+    }
+
+    // Cada clic en un link se registra como "click_link", con el nombre del link.
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest("a[data-track]");
+      if (!a) return;
+      var props = { link_name: a.dataset.track, link_url: a.href };
+      if (window.gtag) gtag("event", "click_link", props);
+      if (window.posthog && window.posthog.capture) window.posthog.capture("click_link", props);
+    });
+
+    // Flechas del carrusel de videos.
+    var carousel = document.querySelector(".carousel");
+    document.querySelectorAll("[data-scroll]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var card = carousel.querySelector(".video");
+        var step = card ? card.getBoundingClientRect().width + 12 : 260;
+        carousel.scrollBy({ left: step * Number(btn.dataset.scroll), behavior: "smooth" });
+      });
+    });
+  </script>
+</body>
+</html>
