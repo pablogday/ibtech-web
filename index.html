@@ -9,20 +9,93 @@
   <link rel="icon" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
   <meta name="theme-color" content="#900c03">
+
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IBtech">
   <meta property="og:title" content="IBtech">
   <meta property="og:description" content="Reviews, novedades y opiniones sobre el mundo tech.">
   <meta property="og:url" content="https://ibtechteam.com/">
   <meta property="og:image" content="https://ibtechteam.com/assets/avatar.jpeg">
+  <meta property="og:image:width" content="400">
+  <meta property="og:image:height" content="400">
+  <meta property="og:locale" content="es_AR">
   <meta name="twitter:card" content="summary">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=Red+Hat+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="preload" href="assets/fonts/red-hat-display-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/gasoek-one-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "IBtech",
+    "url": "https://ibtechteam.com/",
+    "logo": "https://ibtechteam.com/assets/avatar.jpeg",
+    "description": "Reviews, novedades y opiniones sobre el mundo tech.",
+    "email": "theibtechteam@gmail.com",
+    "sameAs": [
+      "https://www.youtube.com/@ibtechteam",
+      "https://www.instagram.com/ibtechteam/",
+      "https://www.tiktok.com/@ibtechteam"
+    ]
+  }
+  </script>
+
+  <script>
+    // Configuración. Lo que se puede cambiar está acá.
+    window.IBTECH = {
+      gtm: "",                    // ID del contenedor de Google Tag Manager, por ejemplo "GTM-XXXXXXX". GA4 y PostHog se cargan desde GTM.
+      prodHosts: ["ibtechteam.com"], // solo en estos dominios (y su www) se cargan GTM y se mandan eventos
+      trackStaging: false         // true para mandar eventos reales desde localhost
+    };
+    window.IBTECH.isProd = window.IBTECH.prodHosts.some(function (h) {
+      return location.hostname === h || location.hostname.endsWith("." + h);
+    });
+
+    // Consent Mode v2: sin publicidad, con analítica.
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag("consent", "default", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: "granted"
+    });
+
+    if (window.IBTECH.gtm && window.IBTECH.isProd) {
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(i);
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", window.IBTECH.gtm);
+    }
+  </script>
+
   <style>
+    @font-face {
+      font-family: "Red Hat Display";
+      font-style: normal;
+      font-weight: 500 700;
+      font-display: swap;
+      src: url("assets/fonts/red-hat-display-latin.woff2") format("woff2");
+    }
+
+    @font-face {
+      font-family: "Gasoek One";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("assets/fonts/gasoek-one-latin.woff2") format("woff2");
+    }
+
     :root {
       --bg: #900c03;
-      --bg-light: #c42410;
+      --bg-light: #b01a08;
       --bg-dark: #5c0702;
+      --bg-warm: #a81606;
       --heading: #ffbea0;
       --text: #faded1;
       --button-text: #ffebe3;
@@ -31,6 +104,7 @@
       --button-border: rgba(255, 255, 255, 0.2);
       --shadow: rgba(180, 155, 110, 0.35);
       --radius: 16px;
+      --ease: 200ms ease;
     }
 
     * { box-sizing: border-box; }
@@ -43,6 +117,7 @@
       background: var(--bg);
       color: var(--text);
       font-family: "Red Hat Display", system-ui, -apple-system, sans-serif;
+      font-weight: 500;
       line-height: 1.4;
       overflow-x: hidden;
     }
@@ -56,12 +131,27 @@
       background:
         radial-gradient(40% 35% at 20% 15%, var(--bg-light) 0%, transparent 70%),
         radial-gradient(45% 40% at 85% 40%, var(--bg-dark) 0%, transparent 70%),
-        radial-gradient(40% 35% at 30% 85%, #b03a12 0%, transparent 70%),
+        radial-gradient(40% 35% at 30% 85%, var(--bg-warm) 0%, transparent 70%),
         var(--bg);
       filter: blur(60px);
     }
 
-    main {
+    .skip-link {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 10;
+      padding: 8px 12px;
+      background: #fff;
+      color: #000;
+      font-weight: 600;
+      text-decoration: none;
+      transform: translateY(-200%);
+    }
+
+    .skip-link:focus { transform: none; }
+
+    .page {
       max-width: 580px;
       margin: 0 auto;
       padding: 48px 16px 40px;
@@ -94,7 +184,6 @@
     .description {
       margin: 0;
       font-size: 1rem;
-      font-weight: 500;
     }
 
     .social {
@@ -108,19 +197,22 @@
       place-items: center;
       width: 32px;
       height: 32px;
+      border-radius: 8px;
       color: var(--text);
-      transition: transform 0.15s ease;
+      transition: transform var(--ease);
     }
 
     .social a:hover { transform: scale(1.12); }
 
     .social svg { width: 26px; height: 26px; }
 
-    .links {
+    main {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
+
+    main:focus { outline: none; }
 
     .button {
       position: relative;
@@ -140,11 +232,11 @@
       font-size: 1rem;
       text-align: center;
       text-decoration: none;
-      transition: transform 0.15s ease, background 0.15s ease;
+      transition: transform var(--ease), background-color var(--ease);
     }
 
     .button:hover {
-      background: var(--button-bg-hover);
+      background-color: var(--button-bg-hover);
       transform: scale(1.02);
     }
 
@@ -156,7 +248,7 @@
     }
 
     .group {
-      padding: 16px 0 16px;
+      padding: 16px 0;
       border: 1px solid var(--button-border);
       border-radius: var(--radius);
       background: var(--button-bg);
@@ -193,9 +285,10 @@
       background: transparent;
       color: var(--button-text);
       cursor: pointer;
+      transition: background-color var(--ease);
     }
 
-    .arrows button:hover { background: var(--button-bg-hover); }
+    .arrows button:hover { background-color: var(--button-bg-hover); }
 
     .arrows svg { width: 16px; height: 16px; }
 
@@ -203,7 +296,7 @@
       display: flex;
       gap: 12px;
       overflow-x: auto;
-      padding: 0 16px 4px;
+      padding: 4px 16px;
       scroll-snap-type: x mandatory;
       scroll-padding: 0 16px;
       scrollbar-width: none;
@@ -214,6 +307,7 @@
     .video {
       flex: 0 0 78%;
       max-width: 260px;
+      border-radius: 12px;
       scroll-snap-align: start;
       color: var(--button-text);
       text-decoration: none;
@@ -239,9 +333,14 @@
       overflow: hidden;
     }
 
-    .spacer { height: 8px; }
+    .redes {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 8px;
+    }
 
-    .section-title {
+    .redes h2 {
       margin: 0;
       font-size: 1rem;
       font-weight: 700;
@@ -250,162 +349,180 @@
     }
 
     footer {
-      margin-top: 40px;
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 0 16px 40px;
       font-size: 0.8125rem;
       text-align: center;
-      opacity: 0.7;
     }
 
     a:focus-visible, button:focus-visible {
-      outline: 2px solid var(--heading);
-      outline-offset: 3px;
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .button, .social a { transition: none; }
+      .button, .social a, .arrows button { transition: none; }
       .button:hover, .social a:hover { transform: none; }
-      .carousel { scroll-behavior: auto; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <header>
-      <img class="avatar" src="assets/avatar.jpeg" alt="IBtech" width="96" height="96">
+  <a class="skip-link" href="#main">Ir al contenido</a>
+
+  <div class="page">
+    <header data-section="perfil">
+      <img class="avatar" src="assets/avatar.webp" alt="" width="96" height="96" fetchpriority="high">
       <h1>IBtech</h1>
       <p class="description">Reviews, novedades y opiniones sobre el mundo tech.</p>
       <nav class="social" aria-label="Redes">
-        <a href="https://instagram.com/ibtechteam" target="_blank" rel="noopener" aria-label="Instagram" data-track="Ícono Instagram">
+        <a href="https://instagram.com/ibtechteam" target="_blank" rel="noopener" aria-label="Instagram" data-track="outbound_click" data-track-label="Ícono Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         </a>
-        <a href="https://tiktok.com/@ibtechteam" target="_blank" rel="noopener" aria-label="TikTok" data-track="Ícono TikTok">
+        <a href="https://tiktok.com/@ibtechteam" target="_blank" rel="noopener" aria-label="TikTok" data-track="outbound_click" data-track-label="Ícono TikTok">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.6a7.8 7.8 0 0 0 4.4 1.4V6.7a4.5 4.5 0 0 1-4.4-4.7z"/></svg>
         </a>
-        <a href="https://www.youtube.com/channel/UCf3vUxDeJmSUJyte9M_EpAQ" target="_blank" rel="noopener" aria-label="YouTube" data-track="Ícono YouTube">
+        <a href="https://www.youtube.com/channel/UCf3vUxDeJmSUJyte9M_EpAQ" target="_blank" rel="noopener" aria-label="YouTube" data-track="outbound_click" data-track-label="Ícono YouTube">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4a2.5 2.5 0 0 0-1.8 1.8C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3-5.2 3z"/></svg>
         </a>
-        <a href="mailto:theibtechteam@gmail.com" aria-label="Mail" data-track="Ícono Mail">
+        <a href="mailto:theibtechteam@gmail.com" aria-label="Mail" data-track="email_click" data-track-label="Ícono Mail">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
         </a>
       </nav>
     </header>
 
-    <div class="links">
-      <a class="button" href="https://www.youtube.com/ibtechteam" target="_blank" rel="noopener" data-track="Suscribite en YouTube">🚀 ¡Suscribite en YouTube! 🚀</a>
+    <main id="main" tabindex="-1">
+      <a class="button" href="https://www.youtube.com/ibtechteam" target="_blank" rel="noopener" data-section="cta" data-track="cta_click" data-track-label="Suscribite en YouTube">🚀 ¡Suscribite en YouTube! 🚀</a>
 
-      <section class="group" aria-labelledby="videos-title">
+      <section class="group" data-section="videos" aria-labelledby="videos-title">
         <div class="group-head">
           <h2 id="videos-title">Nuestros últimos videos</h2>
-          <div class="arrows">
-            <button type="button" data-scroll="-1" aria-label="Videos anteriores">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          <!-- Las flechas son para el mouse. Con el teclado, Tab recorre los videos. -->
+          <div class="arrows" aria-hidden="true">
+            <button type="button" tabindex="-1" data-scroll="-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
             </button>
-            <button type="button" data-scroll="1" aria-label="Más videos">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            <button type="button" tabindex="-1" data-scroll="1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
             </button>
           </div>
         </div>
-        <div class="carousel">
-          <a class="video" href="https://youtu.be/8YL3YKyMCeg" target="_blank" rel="noopener" data-track="Video Q600C">
-            <img src="assets/video-q600c.jpeg" alt="" width="480" height="270" loading="lazy">
+        <div class="carousel" tabindex="-1">
+          <a class="video" href="https://youtu.be/8YL3YKyMCeg" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="Video Q600C">
+            <img src="assets/video-q600c.webp" alt="" width="480" height="270">
             <span>Un soundbar que vale la pena: Review a fondo de la Q600C</span>
           </a>
-          <a class="video" href="https://youtu.be/xEDyuhNUADc" target="_blank" rel="noopener" data-track="Video TCL C6K">
-            <img src="assets/video-tcl-c6k.jpeg" alt="" width="480" height="270" loading="lazy">
+          <a class="video" href="https://youtu.be/xEDyuhNUADc" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="Video TCL C6K">
+            <img src="assets/video-tcl-c6k.webp" alt="" width="480" height="270">
             <span>Probé la TCL C6K QD-Mini LED TV: el punto medio perfecto entre OLED y QLED</span>
           </a>
-          <a class="video" href="https://youtu.be/KBz4KJheDtQ" target="_blank" rel="noopener" data-track="Video Galaxy S25 Ultra">
-            <img src="assets/video-s25-ultra.jpeg" alt="" width="480" height="270" loading="lazy">
+          <a class="video" href="https://youtu.be/KBz4KJheDtQ" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="Video Galaxy S25 Ultra">
+            <img src="assets/video-s25-ultra.webp" alt="" width="480" height="270" loading="lazy">
             <span>Galaxy S25 Ultra: 2 meses después</span>
           </a>
-          <a class="video" href="https://youtu.be/SKrSuwZa9EM" target="_blank" rel="noopener" data-track="Video True Wireless">
-            <img src="assets/video-true-wireless.jpeg" alt="" width="480" height="270" loading="lazy">
+          <a class="video" href="https://youtu.be/SKrSuwZa9EM" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="Video True Wireless">
+            <img src="assets/video-true-wireless.webp" alt="" width="480" height="270" loading="lazy">
             <span>Comparativa True Wireless: Samsung vs Apple vs Motorola y más!</span>
           </a>
-          <a class="video" href="https://youtu.be/NWDbvNN06Ok" target="_blank" rel="noopener" data-track="Video Zenbook S16">
-            <img src="assets/video-zenbook-s16.jpeg" alt="" width="480" height="270" loading="lazy">
+          <a class="video" href="https://youtu.be/NWDbvNN06Ok" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="Video Zenbook S16">
+            <img src="assets/video-zenbook-s16.webp" alt="" width="480" height="270" loading="lazy">
             <span>Una alternativa a la MacBook M3: Asus Zenbook S16 review</span>
           </a>
-          <a class="video" href="https://youtu.be/ZkA4rc_1D0k" target="_blank" rel="noopener" data-track="Video Galaxy Fit 3">
-            <img src="assets/video-galaxy-fit-3.jpeg" alt="" width="480" height="270" loading="lazy">
+          <a class="video" href="https://youtu.be/ZkA4rc_1D0k" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="Video Galaxy Fit 3">
+            <img src="assets/video-galaxy-fit-3.webp" alt="" width="480" height="270" loading="lazy">
             <span>Accesible y cumplidora: Galaxy Fit 3</span>
           </a>
         </div>
       </section>
 
-      <div class="spacer" aria-hidden="true"></div>
+      <section class="redes" data-section="redes" aria-labelledby="redes-title">
+        <h2 id="redes-title">¡Nuestras redes!</h2>
+        <a class="button" href="https://www.instagram.com/ibtechteam" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </a>
+        <a class="button" href="https://www.tiktok.com/@ibtechteam" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.6a7.8 7.8 0 0 0 4.4 1.4V6.7a4.5 4.5 0 0 1-4.4-4.7z"/></svg>
+          TikTok
+        </a>
+        <a class="button" href="https://www.youtube.com/ibtechteam" target="_blank" rel="noopener" data-track="outbound_click" data-track-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4a2.5 2.5 0 0 0-1.8 1.8C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3-5.2 3z"/></svg>
+          YouTube
+        </a>
+      </section>
+    </main>
+  </div>
 
-      <h2 class="section-title">¡Nuestras redes!</h2>
-
-      <a class="button" href="https://www.instagram.com/ibtechteam" target="_blank" rel="noopener" data-track="Instagram">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        Instagram
-      </a>
-      <a class="button" href="https://www.tiktok.com/@ibtechteam" target="_blank" rel="noopener" data-track="TikTok">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.6a7.8 7.8 0 0 0 4.4 1.4V6.7a4.5 4.5 0 0 1-4.4-4.7z"/></svg>
-        TikTok
-      </a>
-      <a class="button" href="https://www.youtube.com/ibtechteam" target="_blank" rel="noopener" data-track="YouTube">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4a2.5 2.5 0 0 0-1.8 1.8C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3-5.2 3z"/></svg>
-        YouTube
-      </a>
-    </div>
-
-    <footer>© IBtech</footer>
-  </main>
+  <footer>© IBtech</footer>
 
   <script>
-    // Analítica. Si un ID está vacío, ese servicio no se carga.
-    var CONFIG = {
-      ga4: "",                                // ID de medición de GA4, por ejemplo "G-XXXXXXXXXX"
-      posthogKey: "",                         // Project API key de PostHog, empieza con "phc_"
-      posthogHost: "https://us.i.posthog.com" // "https://eu.i.posthog.com" si el proyecto está en la región de Europa
-    };
+    // Eventos al dataLayer, con el mismo formato que track.js de PGD.
+    //   data-track="evento"       nombre del evento, snake_case, verbo al final
+    //   data-track-label="..."    opcional; si no está, va el texto del link
+    //   data-section="..."        en cada sección; va en cada evento como `section`
+    // Automáticos: section_view (una vez por sección, al 50% visible) y outbound_click en links sin data-track.
+    // Fuera de ibtechteam.com los eventos se muestran en la consola y no se mandan.
+    (function () {
+      var cfg = window.IBTECH;
+      var send = (cfg.isProd || cfg.trackStaging)
+        ? function (e) { window.dataLayer.push(e); }
+        : function (e) { console.debug("[ibtech] evento (no enviado)", e); };
 
-    function loadScript(src, onload) {
-      var s = document.createElement("script");
-      s.async = true;
-      s.src = src;
-      if (onload) s.onload = onload;
-      document.head.appendChild(s);
-    }
+      function push(event, params) {
+        send(Object.assign({ event: event, page_path: location.pathname }, params));
+      }
 
-    if (CONFIG.ga4) {
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function () { dataLayer.push(arguments); };
-      gtag("js", new Date());
-      gtag("config", CONFIG.ga4);
-      loadScript("https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(CONFIG.ga4));
-    }
+      function sectionOf(el) {
+        var s = el.closest("[data-section]");
+        return s ? s.getAttribute("data-section") : null;
+      }
 
-    if (CONFIG.posthogKey) {
-      var assetsHost = CONFIG.posthogHost.replace(".i.posthog.com", "-assets.i.posthog.com");
-      loadScript(assetsHost + "/static/array.js", function () {
-        window.posthog.init(CONFIG.posthogKey, {
-          api_host: CONFIG.posthogHost,
-          person_profiles: "identified_only"
-        });
+      document.addEventListener("click", function (e) {
+        var el = e.target.closest("[data-track]");
+        if (el) {
+          push(el.getAttribute("data-track"), {
+            label: el.getAttribute("data-track-label") || el.textContent.trim().slice(0, 80),
+            section: sectionOf(el),
+            href: el.getAttribute("href") || undefined
+          });
+          return;
+        }
+        var a = e.target.closest("a[href]");
+        if (!a) return;
+        var url;
+        try { url = new URL(a.href, location.href); } catch (err) { return; }
+        if (url.hostname && url.hostname !== location.hostname) {
+          push("outbound_click", { label: url.hostname, href: url.href, section: sectionOf(a) });
+        }
       });
-    }
 
-    // Cada clic en un link se registra como "click_link", con el nombre del link.
-    document.addEventListener("click", function (e) {
-      var a = e.target.closest("a[data-track]");
-      if (!a) return;
-      var props = { link_name: a.dataset.track, link_url: a.href };
-      if (window.gtag) gtag("event", "click_link", props);
-      if (window.posthog && window.posthog.capture) window.posthog.capture("click_link", props);
-    });
+      if ("IntersectionObserver" in window) {
+        var seen = {};
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            var name = en.target.getAttribute("data-section");
+            if (seen[name]) return;
+            seen[name] = true;
+            push("section_view", { section: name });
+          });
+        }, { threshold: 0.5 });
+        document.querySelectorAll("[data-section]").forEach(function (s) { io.observe(s); });
+      }
+    })();
 
     // Flechas del carrusel de videos.
-    var carousel = document.querySelector(".carousel");
-    document.querySelectorAll("[data-scroll]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var card = carousel.querySelector(".video");
-        var step = card ? card.getBoundingClientRect().width + 12 : 260;
-        carousel.scrollBy({ left: step * Number(btn.dataset.scroll), behavior: "smooth" });
+    (function () {
+      var carousel = document.querySelector(".carousel");
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.querySelectorAll("[data-scroll]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var card = carousel.querySelector(".video");
+          var step = card ? card.getBoundingClientRect().width + 12 : 260;
+          carousel.scrollBy({ left: step * Number(btn.getAttribute("data-scroll")), behavior: reduce ? "auto" : "smooth" });
+        });
       });
-    });
+    })();
   </script>
 </body>
 </html>
