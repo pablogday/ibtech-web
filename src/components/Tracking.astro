@@ -1,0 +1,59 @@
+---
+// Va al final del body, porque lee las secciones que ya están armadas.
+---
+<script is:inline>
+  // Eventos al dataLayer, con el mismo formato que track.js de PGD.
+  //   data-track="evento"       nombre del evento, snake_case, verbo al final
+  //   data-track-label="..."    opcional; si no está, va el texto del link
+  //   data-section="..."        en cada sección; va en cada evento como `section`
+  // Automáticos: section_view (una vez por sección, al 50% visible) y outbound_click en links sin data-track.
+  // Fuera de ibtechteam.com los eventos se muestran en la consola y no se mandan.
+  (function () {
+    var cfg = window.IBTECH;
+    var send = (cfg.isProd || cfg.trackStaging)
+      ? function (e) { window.dataLayer.push(e); }
+      : function (e) { console.debug("[ibtech] evento (no enviado)", e); };
+
+    function push(event, params) {
+      send(Object.assign({ event: event, page_path: location.pathname }, params));
+    }
+
+    function sectionOf(el) {
+      var s = el.closest("[data-section]");
+      return s ? s.getAttribute("data-section") : null;
+    }
+
+    document.addEventListener("click", function (e) {
+      var el = e.target.closest("[data-track]");
+      if (el) {
+        push(el.getAttribute("data-track"), {
+          label: el.getAttribute("data-track-label") || el.textContent.trim().slice(0, 80),
+          section: sectionOf(el),
+          href: el.getAttribute("href") || undefined
+        });
+        return;
+      }
+      var a = e.target.closest("a[href]");
+      if (!a) return;
+      var url;
+      try { url = new URL(a.href, location.href); } catch (err) { return; }
+      if (url.hostname && url.hostname !== location.hostname) {
+        push("outbound_click", { label: url.hostname, href: url.href, section: sectionOf(a) });
+      }
+    });
+
+    if ("IntersectionObserver" in window) {
+      var seen = {};
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var name = en.target.getAttribute("data-section");
+          if (seen[name]) return;
+          seen[name] = true;
+          push("section_view", { section: name });
+        });
+      }, { threshold: 0.5 });
+      document.querySelectorAll("[data-section]").forEach(function (s) { io.observe(s); });
+    }
+  })();
+</script>

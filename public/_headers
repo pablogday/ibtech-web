@@ -1,0 +1,9 @@
+# Los mismos headers que pgdstudio.co.
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Content-Security-Policy: frame-ancestors 'self'
+  X-Frame-Options: SAMEORIGIN
+
+# Astro les pone a estos archivos un nombre que sale de su contenido, así que si un archivo cambia, cambia su dirección.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
