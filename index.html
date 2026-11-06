@@ -52,15 +52,8 @@
       return location.hostname === h || location.hostname.endsWith("." + h);
     });
 
-    // Consent Mode v2: sin publicidad, con analítica.
+    // Sin banner ni Consent Mode: todo se dispara al cargar.
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag("consent", "default", {
-      ad_storage: "denied",
-      ad_user_data: "denied",
-      ad_personalization: "denied",
-      analytics_storage: "granted"
-    });
 
     if (window.IBTECH.gtm && window.IBTECH.isProd) {
       (function (w, d, s, l, i) {

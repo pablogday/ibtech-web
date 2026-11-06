@@ -19,7 +19,7 @@ La página carga solo Google Tag Manager, y GA4 y PostHog se configuran adentro 
 
 - El ID del contenedor va en `window.IBTECH.gtm`, arriba de todo en `index.html`.
 - GTM carga solo en ibtechteam.com y en www.ibtechteam.com. En la compu, los eventos se muestran en la consola y no se mandan.
-- Consent Mode v2 arranca con la publicidad denegada y la analítica permitida. No hay banner de cookies.
+- No hay banner de cookies ni Consent Mode. Todo se dispara al cargar la página. Lo decidió Pablo el 2026-11-05.
 
 ### Qué se configura en GTM
 
@@ -49,6 +49,7 @@ Todos llevan también `page_path`. Las secciones son `perfil`, `cta`, `videos` y
 
 - Las tipografías, Red Hat Display y Gasoek One, están alojadas en la página y no se cargan desde Google Fonts. Son solo los caracteres latinos y los pesos en uso, y las dos se precargan.
 - Los colores son los del Linktree. Los manchones del fondo son un poco más oscuros que el rojo más claro, para que el texto de los botones tenga un contraste de 4,5:1 en toda la página.
+- El borde de los botones tiene un contraste de 1,5:1 contra el fondo, y para un control la norma pide 3:1. Viene del Linktree y queda para revisar.
 - Las flechas del carrusel funcionan solo con el mouse. Con el teclado, Tab recorre los videos, y el carrusel se mueve solo.
 
 ## Probarla en la compu
