@@ -2,23 +2,50 @@
 
 La página de links de IBtech en [ibtechteam.com](https://ibtechteam.com), con los mismos links que tenía [el Linktree](https://linktr.ee/ibtechteam). Está hecha con los estándares de PGD Studio que aplican a una página fuera de Webflow: SEO, accesibilidad, performance y tracking.
 
-La página es `index.html`. Las imágenes y las tipografías están en `assets/`. Se publica en GitHub Pages con cada push a `main`.
+Es un sitio estático en [Astro](https://astro.build), publicado en Cloudflare Pages, igual que pgdstudio.co. Lo decidió Pablo el 2026-11-06.
+
+## Probarla en la compu
+
+```bash
+npm ci
+npm run dev
+```
+
+Y se abre http://localhost:4321. Para ver lo mismo que se publica:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Cómo está armada
+
+| Archivo | Qué tiene |
+|---|---|
+| `src/pages/index.astro` | La página. Arriba de todo están los íconos, los videos y las redes, cada uno en una lista |
+| `src/pages/404.astro` | La página para una dirección que no existe |
+| `src/pages/sitemap.xml.ts` | El sitemap. Una página nueva suma su línea acá |
+| `src/layouts/Layout.astro` | El `<head>`, el link para saltar al contenido y el footer, que comparten las dos páginas |
+| `src/components/HeadScripts.astro` | La configuración (`window.IBTECH`) y Google Tag Manager |
+| `src/components/Tracking.astro` | Los eventos al `dataLayer` |
+| `src/components/Icon.astro` | Los íconos de Instagram, TikTok, YouTube y el mail |
+| `src/styles/site.css` | Los estilos |
+| `public/` | Lo que se publica tal cual: imágenes y tipografías en `assets/`, `robots.txt` y `_headers` |
 
 ## Cambiar un link
 
-Cada link es un `<a>` en `index.html`. Se cambia el `href` (adónde lleva) y el texto. Para el tracking:
+Los links están en las listas de arriba de todo en `src/pages/index.astro`: `iconos`, `videos` y `redes`. Se cambia el `href` (adónde lleva) y el texto. `trackLabel` es el nombre con el que aparece el link en GA4 y PostHog.
 
-- `data-track` es el nombre del evento: `outbound_click`, `cta_click` o `email_click`.
-- `data-track-label` es el nombre con el que aparece el link en GA4 y PostHog.
+Un video nuevo lleva su imagen en WebP de 480 × 270, en `public/assets/`. Las dos primeras imágenes del carrusel cargan enseguida, y el resto cuando se acerca.
 
-Una imagen nueva va en WebP, del tamaño en que se muestra (480 × 270 las de los videos), con `alt=""` si al lado está el título.
+Fuera de las listas, cada link lleva `data-track`, que es el nombre del evento: `outbound_click`, `cta_click` o `email_click`.
 
 ## Analítica
 
 La página carga solo Google Tag Manager, y GA4 y PostHog se configuran adentro de GTM. Los eventos van al `dataLayer`, con el mismo formato que `track.js` de PGD.
 
-- El ID del contenedor va en `window.IBTECH.gtm`, arriba de todo en `index.html`.
-- GTM carga solo en ibtechteam.com y en www.ibtechteam.com. En la compu, los eventos se muestran en la consola y no se mandan.
+- El ID del contenedor va en `window.IBTECH.gtm`, en `src/components/HeadScripts.astro`.
+- GTM carga solo en ibtechteam.com y en www.ibtechteam.com. En la compu y en las previews, los eventos se muestran en la consola y no se mandan.
 - No hay banner de cookies ni Consent Mode. Todo se dispara al cargar la página. Lo decidió Pablo el 2026-11-05.
 
 ### Qué se configura en GTM
@@ -33,11 +60,11 @@ La página carga solo Google Tag Manager, y GA4 y PostHog se configuran adentro 
 | Evento | Cuándo | Parámetros |
 |---|---|---|
 | `section_view` | Una sección se ve al 50%, una vez por visita | `section` |
-| `cta_click` | Clic en "¡Suscribite en YouTube!" | `label`, `section`, `href` |
+| `cta_click` | Clic en "¡Suscribite en YouTube!" o en "Volver al inicio" de la 404 | `label`, `section`, `href` |
 | `outbound_click` | Clic en un video o una red | `label`, `section`, `href` |
 | `email_click` | Clic en el ícono del mail | `label`, `section`, `href` |
 
-Todos llevan también `page_path`. Las secciones son `perfil`, `cta`, `videos` y `redes`.
+Todos llevan también `page_path`. Las secciones son `perfil`, `cta`, `videos` y `redes`, y en la 404, `no-encontrada`.
 
 ## Scripts de terceros
 
@@ -45,17 +72,53 @@ Todos llevan también `page_path`. Las secciones son `perfil`, `cta`, `videos` y
 |---|---|---|
 | Google Tag Manager | Carga GA4 y PostHog | Pablo, 2026-11-05 |
 
+## Publicación
+
+Cloudflare Pages, conectado a este repo de GitHub (un proyecto de Pages, no de Workers). La configuración es la misma que la de pgdstudio.co:
+
+| Opción | Valor |
+|---|---|
+| Framework preset | Astro |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Production branch | `main` |
+| Node | 22, que sale de `.node-version` (o `NODE_VERSION=22` en las variables de entorno del proyecto) |
+
+**Cada rama tiene su URL de preview, y esa es la de prueba.** Se sube una rama, se abre un pull request y se revisa la preview que deja Cloudflare.
+
+**Mergear a `main` es publicar. Lo hace Pablo, y Claude nunca.**
+
+## Pasar el dominio a Cloudflare
+
+Son pasos de Pablo en Cloudflare, Hover y GitHub. Nada de este repo los hace. Van en este orden, porque Cloudflare publica `main` y hasta el merge `main` no tiene Astro.
+
+1. **Proyecto de Pages.** En la misma cuenta de Cloudflare que pgdstudio.co, se crea el proyecto conectado a `pablogday/ibtech-web`, con la configuración de arriba. El repo es de la cuenta personal de Pablo y no de la org `pgdstudio`, así que en GitHub hay que darle acceso a este repo a la app de Cloudflare.
+2. **Preview.** Se revisa la preview de la rama `site-build` con la lista de abajo.
+3. **GitHub Pages.** Se apaga en Settings → Pages de este repo, y se saca de la rama el archivo `CNAME`, que solo usa GitHub Pages.
+4. **Merge.** Pablo mergea el pull request. Cloudflare publica `main` en su dirección `.pages.dev`.
+5. **Zona.** Se agrega ibtechteam.com en Cloudflare, con el plan Free. Cloudflare importa los registros que encuentra en Hover. Se comparan con el panel de Hover:
+   - Se dejan el MX (`mx.hover.com.cust.hostedemail.com`, prioridad 10) y el CNAME `mail` (`mail.hover.com.cust.hostedemail.com`), que van al mail de Hover.
+   - Se borran los A de `ibtechteam.com` y `www` que apuntan a `216.40.34.41`, que es la redirección de Hover a Linktree.
+6. **Nameservers.** En Hover se cambian los de ibtechteam.com por los dos que da Cloudflare. El dominio sigue registrado en Hover. Desde ese momento, la redirección de Hover deja de usarse.
+7. **Dominio en Pages.** Cuando la zona figura como activa, se agrega `ibtechteam.com` como dominio del proyecto de Pages.
+8. **www.** Igual que pgdstudio.co: un registro DNS proxied para `www` (por ejemplo, un CNAME a `ibtechteam.com`) y una Redirect Rule de `www.ibtechteam.com/*` a `https://ibtechteam.com/${1}`, con estado 301 y conservando la query. Y "Always Use HTTPS" prendido, para que `http://` pase a `https://`.
+9. **Headers.** `public/_headers` manda HSTS, `frame-ancestors 'self'` y `X-Frame-Options: SAMEORIGIN`, igual que pgdstudio.co. Si la zona también agrega HSTS desde SSL/TLS, queda uno de los dos.
+
+### Qué se revisa, en la preview y en ibtechteam.com después del cambio
+
+- `/` responde 200, sin redirección, y con candado.
+- `http://ibtechteam.com/` y `https://www.ibtechteam.com/` redirigen con 301 a `https://ibtechteam.com/`.
+- Una dirección que no existe responde 404 con la página 404.
+- `/robots.txt` y `/sitemap.xml` son los de `public/` y `src/pages/`.
+- Están los headers de `public/_headers`.
+- En la consola de la preview aparecen los eventos como "no enviado". En ibtechteam.com, cuando haya ID de GTM, se ven en GTM Preview.
+- El MX de ibtechteam.com sigue apuntando al mail de Hover.
+
 ## Decisiones
 
 - Las tipografías, Red Hat Display y Gasoek One, están alojadas en la página y no se cargan desde Google Fonts. Son solo los caracteres latinos y los pesos en uso, y las dos se precargan.
 - Los colores son los del Linktree. Los manchones del fondo son un poco más oscuros que el rojo más claro, para que el texto de los botones tenga un contraste de 4,5:1 en toda la página.
 - El borde de los botones tiene un contraste de 1,5:1 contra el fondo, y para un control la norma pide 3:1. Viene del Linktree y queda para revisar.
 - Las flechas del carrusel funcionan solo con el mouse. Con el teclado, Tab recorre los videos, y el carrusel se mueve solo.
-
-## Probarla en la compu
-
-```bash
-python3 -m http.server 8765
-```
-
-Y se abre http://localhost:8765.
+- La página 404 es nueva, porque sin `404.html` Cloudflare Pages responde con la home a cualquier dirección. Sus textos ("Esta página no existe." y "Volver al inicio") son provisorios, hasta que Pablo los apruebe.
+- Los estilos van en un archivo aparte bajo `/_astro/`, que el navegador guarda en caché, como en pgdstudio.co.

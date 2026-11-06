@@ -1,0 +1,129 @@
+---
+import '../styles/site.css';
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+
+const description = 'Reviews, novedades y opiniones sobre el mundo tech.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'IBtech',
+  url: 'https://ibtechteam.com/',
+  logo: 'https://ibtechteam.com/assets/avatar.jpeg',
+  description,
+  email: 'theibtechteam@gmail.com',
+  sameAs: ['https://www.youtube.com/@ibtechteam', 'https://www.instagram.com/ibtechteam/', 'https://www.tiktok.com/@ibtechteam'],
+};
+
+// Los íconos de arriba, debajo de la descripción. El mail va aparte, porque no abre otra pestaña.
+const iconos = [
+  { name: 'instagram', label: 'Instagram', href: 'https://instagram.com/ibtechteam', trackLabel: 'Ícono Instagram' },
+  { name: 'tiktok', label: 'TikTok', href: 'https://tiktok.com/@ibtechteam', trackLabel: 'Ícono TikTok' },
+  { name: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/channel/UCf3vUxDeJmSUJyte9M_EpAQ', trackLabel: 'Ícono YouTube' },
+] as const;
+
+// Los videos del carrusel, en el orden en que se ven. Las imágenes van en WebP, de 480 × 270, en public/assets.
+// Las dos primeras se ven al abrir la página y cargan enseguida. El resto carga cuando se acerca.
+const videos = [
+  { href: 'https://youtu.be/8YL3YKyMCeg', image: '/assets/video-q600c.webp', title: 'Un soundbar que vale la pena: Review a fondo de la Q600C', trackLabel: 'Video Q600C' },
+  { href: 'https://youtu.be/xEDyuhNUADc', image: '/assets/video-tcl-c6k.webp', title: 'Probé la TCL C6K QD-Mini LED TV: el punto medio perfecto entre OLED y QLED', trackLabel: 'Video TCL C6K' },
+  { href: 'https://youtu.be/KBz4KJheDtQ', image: '/assets/video-s25-ultra.webp', title: 'Galaxy S25 Ultra: 2 meses después', trackLabel: 'Video Galaxy S25 Ultra' },
+  { href: 'https://youtu.be/SKrSuwZa9EM', image: '/assets/video-true-wireless.webp', title: 'Comparativa True Wireless: Samsung vs Apple vs Motorola y más!', trackLabel: 'Video True Wireless' },
+  { href: 'https://youtu.be/NWDbvNN06Ok', image: '/assets/video-zenbook-s16.webp', title: 'Una alternativa a la MacBook M3: Asus Zenbook S16 review', trackLabel: 'Video Zenbook S16' },
+  { href: 'https://youtu.be/ZkA4rc_1D0k', image: '/assets/video-galaxy-fit-3.webp', title: 'Accesible y cumplidora: Galaxy Fit 3', trackLabel: 'Video Galaxy Fit 3' },
+];
+
+// Los botones de "¡Nuestras redes!".
+const redes = [
+  { name: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/ibtechteam' },
+  { name: 'tiktok', label: 'TikTok', href: 'https://www.tiktok.com/@ibtechteam' },
+  { name: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/ibtechteam' },
+] as const;
+---
+
+<Layout title="IBtech" description={description} canonical="https://ibtechteam.com/">
+  <Fragment slot="head">
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="IBtech" />
+    <meta property="og:title" content="IBtech" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://ibtechteam.com/" />
+    <meta property="og:image" content="https://ibtechteam.com/assets/avatar.jpeg" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="400" />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <div class="page">
+    <header data-section="perfil">
+      <img class="avatar" src="/assets/avatar.webp" alt="" width="96" height="96" fetchpriority="high" />
+      <h1>IBtech</h1>
+      <p class="description">{description}</p>
+      <nav class="social" aria-label="Redes">
+        {iconos.map((i) => (
+          <a href={i.href} target="_blank" rel="noopener" aria-label={i.label} data-track="outbound_click" data-track-label={i.trackLabel}>
+            <Icon name={i.name} />
+          </a>
+        ))}
+        <a href="mailto:theibtechteam@gmail.com" aria-label="Mail" data-track="email_click" data-track-label="Ícono Mail">
+          <Icon name="mail" />
+        </a>
+      </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <a class="button" href="https://www.youtube.com/ibtechteam" target="_blank" rel="noopener" data-section="cta" data-track="cta_click" data-track-label="Suscribite en YouTube">🚀 ¡Suscribite en YouTube! 🚀</a>
+
+      <section class="group" data-section="videos" aria-labelledby="videos-title">
+        <div class="group-head">
+          <h2 id="videos-title">Nuestros últimos videos</h2>
+          {/* Las flechas son para el mouse. Con el teclado, Tab recorre los videos. */}
+          <div class="arrows" aria-hidden="true">
+            <button type="button" tabindex="-1" data-scroll="-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <button type="button" tabindex="-1" data-scroll="1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="carousel" tabindex="-1">
+          {videos.map((v, n) => (
+            <a class="video" href={v.href} target="_blank" rel="noopener" data-track="outbound_click" data-track-label={v.trackLabel}>
+              <img src={v.image} alt="" width="480" height="270" loading={n < 2 ? undefined : 'lazy'} />
+              <span>{v.title}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="redes" data-section="redes" aria-labelledby="redes-title">
+        <h2 id="redes-title">¡Nuestras redes!</h2>
+        {redes.map((r) => (
+          <a class="button" href={r.href} target="_blank" rel="noopener" data-track="outbound_click" data-track-label={r.label}>
+            <Icon name={r.name} />
+            {r.label}
+          </a>
+        ))}
+      </section>
+    </main>
+  </div>
+
+  <script is:inline slot="scripts">
+    // Flechas del carrusel de videos.
+    (function () {
+      var carousel = document.querySelector(".carousel");
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.querySelectorAll("[data-scroll]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var card = carousel.querySelector(".video");
+          var step = card ? card.getBoundingClientRect().width + 12 : 260;
+          carousel.scrollBy({ left: step * Number(btn.getAttribute("data-scroll")), behavior: reduce ? "auto" : "smooth" });
+        });
+      });
+    })();
+  </script>
+</Layout>

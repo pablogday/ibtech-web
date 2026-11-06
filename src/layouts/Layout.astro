@@ -1,0 +1,40 @@
+---
+// El <head> que comparten las páginas, y el tracking, que corre cuando el body ya está armado.
+// Cada página importa src/styles/site.css, y Astro lo linkea en este head.
+import HeadScripts from '../components/HeadScripts.astro';
+import Tracking from '../components/Tracking.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  // La 404 no lleva canonical, porque no es una dirección propia.
+  canonical?: string;
+}
+
+const { title, description, canonical } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/assets/favicon.png" />
+    <link rel="apple-touch-icon" href="/assets/favicon.png" />
+    <meta name="theme-color" content="#900c03" />
+    <slot name="head" />
+    <link rel="preload" href="/assets/fonts/red-hat-display-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/gasoek-one-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <HeadScripts />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Ir al contenido</a>
+    <slot />
+    <footer>© IBtech</footer>
+    <Tracking />
+    <slot name="scripts" />
+  </body>
+</html>
