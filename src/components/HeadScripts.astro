@@ -1,5 +1,5 @@
 ---
-// La configuración, Google Tag Manager y PostHog. GA4 se carga desde GTM, y PostHog va directo, igual que en pgdstudio.co.
+// La configuración, Google Tag Manager y PostHog. PostHog va directo hasta que exista el contenedor de GTM, y ahí pasa adentro.
 ---
 <script is:inline>
   // Configuración. Lo que se puede cambiar está acá.
@@ -27,7 +27,7 @@
     })(window, document, "script", "dataLayer", window.IBTECH.gtm);
   }
 
-  // PostHog, igual que en pgdstudio.co. Carga solo en ibtechteam.com y su www.
+  // PostHog, transitorio hasta que exista el contenedor de GTM. Carga solo en ibtechteam.com y su www.
   if (window.IBTECH.posthog && window.IBTECH.isProd) {
     !(function (t, e) {
       var o, n, p, r;
