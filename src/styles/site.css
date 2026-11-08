@@ -24,7 +24,7 @@
   --button-text: #ffebe3;
   --button-bg: rgba(255, 255, 255, 0.13);
   --button-bg-hover: rgba(255, 255, 255, 0.2);
-  --button-border: rgba(255, 255, 255, 0.2);
+  --button-border: rgba(255, 255, 255, 0.65);
   --shadow: rgba(180, 155, 110, 0.35);
   --radius: 16px;
   --ease: 200ms ease;

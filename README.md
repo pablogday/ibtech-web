@@ -118,7 +118,7 @@ Son pasos de Pablo en Cloudflare, Hover y GitHub. Nada de este repo los hace. Va
 
 - Las tipografías, Red Hat Display y Gasoek One, están alojadas en la página y no se cargan desde Google Fonts. Son solo los caracteres latinos y los pesos en uso, y las dos se precargan.
 - Los colores son los del Linktree. Los manchones del fondo son un poco más oscuros que el rojo más claro, para que el texto de los botones tenga un contraste de 4,5:1 en toda la página.
-- El borde de los botones tiene un contraste de 1,5:1 contra el fondo, y para un control la norma pide 3:1. Viene del Linktree y queda para revisar.
+- El borde de los botones, del recuadro de los videos y de las flechas es blanco al 65%, con un contraste de al menos 3:1 contra el fondo en toda la página. En el Linktree era blanco al 20%, con 1,5:1. WCAG no le exige borde a un botón con texto visible, y el cambio lo decidió Pablo el 2026-11-08.
 - Las flechas del carrusel funcionan solo con el mouse. Con el teclado, Tab recorre los videos, y el carrusel se mueve solo.
 - La página 404 es nueva, porque sin `404.html` Cloudflare Pages responde con la home a cualquier dirección. Sus textos ("Esta página no existe." y "Volver al inicio") son provisorios, hasta que Pablo los apruebe.
 - Los estilos van en un archivo aparte bajo `/_astro/`, que el navegador guarda en caché, como en pgdstudio.co.
