@@ -1,0 +1,20 @@
+---
+// Cloudflare Pages manda esta página, con estado 404, a cualquier dirección que no existe.
+// Sin un 404.html, Pages toma el sitio como una app de una sola página y responde todo con la home.
+import '../styles/site.css';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Página no encontrada | IBtech" description="Esta página no existe.">
+  <div class="page" data-section="no-encontrada">
+    <header>
+      <img class="avatar" src="/assets/avatar.webp" alt="" width="96" height="96" fetchpriority="high" />
+      <h1>IBtech</h1>
+      <p class="description">Esta página no existe.</p>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <a class="button" href="/" data-track="cta_click" data-track-label="Volver al inicio">Volver al inicio</a>
+    </main>
+  </div>
+</Layout>

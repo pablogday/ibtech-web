@@ -1,0 +1,28 @@
+---
+// La configuración y Google Tag Manager, igual que en la página de antes. GA4 y PostHog se cargan desde GTM.
+---
+<script is:inline>
+  // Configuración. Lo que se puede cambiar está acá.
+  window.IBTECH = {
+    gtm: "",                    // ID del contenedor de Google Tag Manager, por ejemplo "GTM-XXXXXXX". GA4 y PostHog se cargan desde GTM.
+    prodHosts: ["ibtechteam.com"], // solo en estos dominios (y su www) se cargan GTM y se mandan eventos
+    trackStaging: false         // true para mandar eventos reales desde localhost o una preview
+  };
+  window.IBTECH.isProd = window.IBTECH.prodHosts.some(function (h) {
+    return location.hostname === h || location.hostname.endsWith("." + h);
+  });
+
+  // Sin banner ni Consent Mode: todo se dispara al cargar.
+  window.dataLayer = window.dataLayer || [];
+
+  if (window.IBTECH.gtm && window.IBTECH.isProd) {
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(i);
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", window.IBTECH.gtm);
+  }
+</script>
