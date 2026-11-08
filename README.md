@@ -78,6 +78,7 @@ Cloudflare Pages, conectado a este repo de GitHub (un proyecto de Pages, no de W
 
 | Opción | Valor |
 |---|---|
+| Proyecto | `ibtechteam-com`, en la cuenta de Cloudflare de PGD |
 | Framework preset | Astro |
 | Build command | `npm run build` |
 | Build output directory | `dist` |
