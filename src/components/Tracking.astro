@@ -11,18 +11,12 @@
   (function () {
     var cfg = window.IBTECH;
     var send = (cfg.isProd || cfg.trackStaging)
-      ? function (e) {
-          window.dataLayer.push(e);
-          if (window.posthog) {
-            var props = Object.assign({}, e);
-            delete props.event;
-            window.posthog.capture(e.event, props);
-          }
-        }
+      ? function (e) { window.dataLayer.push(e); }
       : function (e) { console.debug("[ibtech] evento (no enviado)", e); };
 
     function push(event, params) {
-      send(Object.assign({ event: event, page_path: location.pathname }, params));
+      // label, section y href arrancan vacíos en cada evento, porque GTM conserva los valores del evento anterior.
+      send(Object.assign({ event: event, page_path: location.pathname, label: undefined, section: undefined, href: undefined }, params));
     }
 
     function sectionOf(el) {

@@ -42,17 +42,17 @@ Fuera de las listas, cada link lleva `data-track`, que es el nombre del evento: 
 
 ## Analítica
 
-El estándar de Pablo es que todo el tracking entre por Google Tag Manager, en todos sus proyectos. Por ahora PostHog va directo en la página, porque todavía no está el contenedor de GTM, y pasa adentro cuando esté. Los eventos van al `dataLayer` y a PostHog, con el mismo formato que `track.js` de PGD.
+El estándar de Pablo es que todo el tracking entre por Google Tag Manager, en todos sus proyectos. El sitio solo carga el contenedor `GTM-MMK8ZRVM`, que está en la cuenta de Google de IBtech, y manda los eventos al `dataLayer`, con el mismo formato que `track.js` de PGD. GA4 y PostHog se configuran adentro de GTM.
 
-- El ID del contenedor va en `window.IBTECH.gtm`, y la clave pública de PostHog en `window.IBTECH.posthog`, los dos en `src/components/HeadScripts.astro`.
-- GTM y PostHog cargan solo en ibtechteam.com y en www.ibtechteam.com. En la compu y en las previews, los eventos se muestran en la consola y no se mandan.
+- El ID del contenedor va en `window.IBTECH.gtm`, en `src/components/HeadScripts.astro`.
+- GTM carga solo en ibtechteam.com y en www.ibtechteam.com. En la compu y en las previews, los eventos se muestran en la consola y no se mandan.
 - No hay banner de cookies ni Consent Mode. Todo se dispara al cargar la página. Lo decidió Pablo el 2026-11-05.
 
 ### Qué se configura en GTM
 
-1. Una etiqueta de Google con el ID de medición de GA4, en todas las páginas.
+1. Una etiqueta de Google con el ID de medición de GA4, `G-ELB7NYK0SM`, en todas las páginas.
 2. Una etiqueta de evento de GA4 con el nombre `{{Event}}`, que se dispara con un evento personalizado que cumple `^(cta_click|outbound_click|email_click|section_view)$`. Lleva como parámetros `label`, `section`, `href` y `page_path`, cada uno como variable de capa de datos.
-3. PostHog, con una etiqueta de HTML personalizado con el snippet de PostHog en todas las páginas, y los mismos eventos mandados con `posthog.capture`. Cuando ande, se saca el snippet de `HeadScripts.astro` y el `posthog.capture` de `Tracking.astro`.
+3. PostHog, con una etiqueta de HTML personalizado con el snippet de PostHog en todas las páginas, y otra que manda los mismos eventos con `posthog.capture`.
 4. En GA4, en la medición mejorada, se apagan los clics salientes, porque ya los cuenta `outbound_click`.
 
 ## Eventos
@@ -70,8 +70,8 @@ Todos llevan también `page_path`. Las secciones son `perfil`, `cta`, `videos` y
 
 | Script | Qué hace | Quién lo pidió |
 |---|---|---|
-| Google Tag Manager | Carga GA4 | Pablo, 2026-11-05 |
-| PostHog | Páginas vistas, clics y los eventos de arriba. Va directo hasta que esté el contenedor de GTM | Pablo, 2026-11-08 |
+| Google Tag Manager | Carga GA4 y PostHog | Pablo, 2026-11-05 |
+| PostHog | Páginas vistas, clics y los eventos de arriba. Carga adentro de GTM | Pablo, 2026-11-08 |
 
 ## Publicación
 
@@ -113,7 +113,7 @@ Son pasos de Pablo en Cloudflare, Hover y GitHub. Nada de este repo los hace. Va
 - Una dirección que no existe responde 404 con la página 404.
 - `/robots.txt` y `/sitemap.xml` son los de `public/` y `src/pages/`.
 - Están los headers de `public/_headers`.
-- En la consola de la preview aparecen los eventos como "no enviado". En ibtechteam.com se ven en PostHog, en Activity, y, cuando haya ID de GTM, en GTM Preview.
+- En la consola de la preview aparecen los eventos como "no enviado". En ibtechteam.com se ven en PostHog, en Activity, y en GTM Preview.
 - El MX de ibtechteam.com sigue apuntando al mail de Hover.
 
 ## Decisiones
