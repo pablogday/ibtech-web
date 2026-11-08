@@ -92,15 +92,15 @@ Cloudflare Pages, conectado a este repo de GitHub (un proyecto de Pages, no de W
 
 Son pasos de Pablo en Cloudflare, Hover y GitHub. Nada de este repo los hace. Van en este orden, porque Cloudflare publica `main` y hasta el merge `main` no tiene Astro.
 
-1. **Proyecto de Pages.** En la misma cuenta de Cloudflare que pgdstudio.co, se crea el proyecto conectado a `pablogday/ibtech-web`, con la configuración de arriba. El repo es de la cuenta personal de Pablo y no de la org `pgdstudio`, así que en GitHub hay que darle acceso a este repo a la app de Cloudflare.
+1. **Proyecto de Pages.** En la misma cuenta de Cloudflare que pgdstudio.co, se crea el proyecto conectado a `pablogday/ibtech-web`, con la configuración de arriba. El repo es de la cuenta personal de Pablo, y la app de Cloudflare está instalada en la org `pgdstudio`, donde este repo no aparece. Hay que instalarla también en la cuenta `pablogday`, con acceso solo a este repo, desde [la página de la app](https://github.com/apps/cloudflare-workers-and-pages/installations/new).
 2. **Preview.** Se revisa la preview de la rama `site-build` con la lista de abajo.
 3. **GitHub Pages.** Se apaga en Settings → Pages de este repo, y se saca de la rama el archivo `CNAME`, que solo usa GitHub Pages.
 4. **Merge.** Pablo mergea el pull request. Cloudflare publica `main` en su dirección `.pages.dev`.
 5. **Zona.** Se agrega ibtechteam.com en Cloudflare, con el plan Free. Cloudflare importa los registros que encuentra en Hover. Se comparan con el panel de Hover:
    - Se dejan el MX (`mx.hover.com.cust.hostedemail.com`, prioridad 10) y el CNAME `mail` (`mail.hover.com.cust.hostedemail.com`), que van al mail de Hover.
-   - Se borran los A de `ibtechteam.com` y `www` que apuntan a `216.40.34.41`, que es la redirección de Hover a Linktree.
-6. **Nameservers.** En Hover se cambian los de ibtechteam.com por los dos que da Cloudflare. El dominio sigue registrado en Hover. Desde ese momento, la redirección de Hover deja de usarse.
-7. **Dominio en Pages.** Cuando la zona figura como activa, se agrega `ibtechteam.com` como dominio del proyecto de Pages.
+   - Los A de `ibtechteam.com` y `www` que apuntan a `216.40.34.41`, que es la redirección de Hover a Linktree, se dejan por ahora, sin proxy. Se borran en el paso 7.
+6. **Nameservers.** En Hover se cambian los de ibtechteam.com por los dos que da Cloudflare. El dominio sigue registrado en Hover.
+7. **Dominio en Pages.** Cuando la zona figura como activa, se borran los dos A y enseguida se agrega `ibtechteam.com` como dominio del proyecto de Pages. Cloudflare crea solo el CNAME. Los A se dejan hasta acá para que el dominio no quede sin responder en el medio.
 8. **www.** Igual que pgdstudio.co: un registro DNS proxied para `www` (por ejemplo, un CNAME a `ibtechteam.com`) y una Redirect Rule de `www.ibtechteam.com/*` a `https://ibtechteam.com/${1}`, con estado 301 y conservando la query. Y "Always Use HTTPS" prendido, para que `http://` pase a `https://`.
 9. **Headers.** `public/_headers` manda HSTS, `frame-ancestors 'self'` y `X-Frame-Options: SAMEORIGIN`, igual que pgdstudio.co. Si la zona también agrega HSTS desde SSL/TLS, queda uno de los dos.
 
@@ -120,5 +120,5 @@ Son pasos de Pablo en Cloudflare, Hover y GitHub. Nada de este repo los hace. Va
 - Los colores son los del Linktree. Los manchones del fondo son un poco más oscuros que el rojo más claro, para que el texto de los botones tenga un contraste de 4,5:1 en toda la página.
 - El borde de los botones, del recuadro de los videos y de las flechas es blanco al 65%, con un contraste de al menos 3:1 contra el fondo en toda la página. En el Linktree era blanco al 20%, con 1,5:1. WCAG no le exige borde a un botón con texto visible, y el cambio lo decidió Pablo el 2026-11-08.
 - Las flechas del carrusel funcionan solo con el mouse. Con el teclado, Tab recorre los videos, y el carrusel se mueve solo.
-- La página 404 es nueva, porque sin `404.html` Cloudflare Pages responde con la home a cualquier dirección. Sus textos ("Esta página no existe." y "Volver al inicio") son provisorios, hasta que Pablo los apruebe.
+- La página 404 es nueva, porque sin `404.html` Cloudflare Pages responde con la home a cualquier dirección. Sus textos ("Esta página no existe." y "Volver al inicio") los aprobó Pablo el 2026-11-08.
 - Los estilos van en un archivo aparte bajo `/_astro/`, que el navegador guarda en caché, como en pgdstudio.co.
