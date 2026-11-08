@@ -11,7 +11,14 @@
   (function () {
     var cfg = window.IBTECH;
     var send = (cfg.isProd || cfg.trackStaging)
-      ? function (e) { window.dataLayer.push(e); }
+      ? function (e) {
+          window.dataLayer.push(e);
+          if (window.posthog) {
+            var props = Object.assign({}, e);
+            delete props.event;
+            window.posthog.capture(e.event, props);
+          }
+        }
       : function (e) { console.debug("[ibtech] evento (no enviado)", e); };
 
     function push(event, params) {
