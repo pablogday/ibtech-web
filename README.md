@@ -88,7 +88,7 @@ Cloudflare Pages, conectado a este repo de GitHub (un proyecto de Pages, no de W
 
 **Cada rama tiene su URL de preview, y esa es la de prueba.** Se sube una rama, se abre un pull request y se revisa la preview que deja Cloudflare.
 
-**Mergear a `main` es publicar. Lo hace Pablo, y Claude nunca.**
+**Mergear a `main` es publicar. Lo hacen Pablo o Chapa, y Claude mergea solo si alguno de los dos se lo pide.**
 
 ## Pasar el dominio a Cloudflare
 
