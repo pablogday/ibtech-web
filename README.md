@@ -31,14 +31,23 @@ npm run preview
 | `src/components/Icon.astro` | Los íconos de Instagram, TikTok, YouTube y el mail |
 | `src/styles/site.css` | Los estilos |
 | `public/` | Lo que se publica tal cual: imágenes y tipografías en `assets/`, `robots.txt` y `_headers` |
+| `functions/index.js` | Pone en el carrusel de la home los últimos videos del canal. Es lo único del sitio que corre en cada visita |
 
 ## Cambiar un link
 
-Los links están en las listas de arriba de todo en `src/pages/index.astro`: `iconos`, `videos` y `redes`. Se cambia el `href` (adónde lleva) y el texto. `trackLabel` es el nombre con el que aparece el link en GA4 y PostHog.
-
-Un video nuevo lleva su imagen en WebP de 480 × 270, en `public/assets/`. Las dos primeras imágenes del carrusel cargan enseguida, y el resto cuando se acerca.
+Los links están en las listas de arriba de todo en `src/pages/index.astro`: `iconos` y `redes`. Se cambia el `href` (adónde lleva) y el texto. `trackLabel` es el nombre con el que aparece el link en GA4 y PostHog.
 
 Fuera de las listas, cada link lleva `data-track`, que es el nombre del evento: `outbound_click`, `cta_click` o `email_click`.
+
+## Últimos videos
+
+El carrusel muestra solo los últimos 5 videos horizontales del canal, sin Shorts. No hay que tocar nada cuando se sube un video: aparece en una hora como mucho.
+
+`functions/index.js` los pide a la API de YouTube y reemplaza el link, la imagen, el título y el `data-track-label` de cada tarjeta. En GA4 y PostHog el clic llega como `Video` y el título. Las imágenes vienen de `i.ytimg.com`.
+
+- La clave de la API va en Cloudflare, en el proyecto `ibtechteam-com`, como secreto con el nombre `YOUTUBE_API_KEY`, en Production y en Preview. Nunca va en el repo.
+- Si falta la clave o YouTube no responde, la página sale igual, con los videos de la lista `videos` de `src/pages/index.astro`.
+- Esa lista tiene que tener 5 videos, cada uno con su imagen en WebP de 480 × 270 en `public/assets/`.
 
 ## Analítica
 
