@@ -23,7 +23,9 @@ const iconos = [
   { name: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/channel/UCf3vUxDeJmSUJyte9M_EpAQ', trackLabel: 'Ícono YouTube' },
 ] as const;
 
-// Los videos del carrusel, en el orden en que se ven. Las imágenes van en WebP, de 480 × 270, en public/assets.
+// Los videos de respaldo del carrusel. Al publicarse, functions/index.js los cambia por los últimos del canal,
+// y estos se ven solo si YouTube no responde. Tienen que ser tantos como CANTIDAD en esa función.
+// Las imágenes van en WebP, de 480 × 270, en public/assets.
 // Las dos primeras se ven al abrir la página y cargan enseguida. El resto carga cuando se acerca.
 const videos = [
   { href: 'https://youtu.be/8YL3YKyMCeg', image: '/assets/video-q600c.webp', title: 'Un soundbar que vale la pena: Review a fondo de la Q600C', trackLabel: 'Video Q600C' },
@@ -31,7 +33,6 @@ const videos = [
   { href: 'https://youtu.be/KBz4KJheDtQ', image: '/assets/video-s25-ultra.webp', title: 'Galaxy S25 Ultra: 2 meses después', trackLabel: 'Video Galaxy S25 Ultra' },
   { href: 'https://youtu.be/SKrSuwZa9EM', image: '/assets/video-true-wireless.webp', title: 'Comparativa True Wireless: Samsung vs Apple vs Motorola y más!', trackLabel: 'Video True Wireless' },
   { href: 'https://youtu.be/NWDbvNN06Ok', image: '/assets/video-zenbook-s16.webp', title: 'Una alternativa a la MacBook M3: Asus Zenbook S16 review', trackLabel: 'Video Zenbook S16' },
-  { href: 'https://youtu.be/ZkA4rc_1D0k', image: '/assets/video-galaxy-fit-3.webp', title: 'Accesible y cumplidora: Galaxy Fit 3', trackLabel: 'Video Galaxy Fit 3' },
 ];
 
 // Los botones de "¡Nuestras redes!".
